@@ -11,6 +11,11 @@ immutable Normal <: EFUnivariateDistribution
     end
 end
 
+show(io::IO, d::Normal) =
+    print(io, "EFD.Normal(", d.h, ", ", d.J, ")")
+
+# conversion
+
 convert(::Type{Distribution}, d::Normal) =
     convert(Distributions.Normal, d)
 
