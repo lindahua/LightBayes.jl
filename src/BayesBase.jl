@@ -1,5 +1,5 @@
 module BayesBase
 
-# package code goes here
+using Distributions
 
 end # module
