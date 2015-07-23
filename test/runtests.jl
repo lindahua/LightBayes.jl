@@ -1,5 +1,7 @@
-using BayesBase
-using Base.Test
+tests = ["efd_univariate"]
 
-# write your own tests here
-@test 1 == 1
+for t in tests
+    fpath = "$t.jl"
+    println("running $fpath ...")
+    include(fpath)
+end

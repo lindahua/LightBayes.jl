@@ -2,8 +2,8 @@ module BayesBase
 
 using Distributions
 
-import Distributions: log2π
-import Distributions: logpdf
+import Base: convert, show
+import Distributions: nsamples, logpdf, logpdf!
 
 export
     # sub-modules
@@ -16,8 +16,10 @@ export
     EFMultivariateDistribution,
 
     # generic functions
-    inner,
+    constbdf,
+    inner, inner!,
     logpartition,
+    logupdf, logupdf!,
     logbdf
 
 
