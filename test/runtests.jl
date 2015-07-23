@@ -1,4 +1,4 @@
-using ExponentialFamilies
+using BayesBase
 using Base.Test
 
 # write your own tests here

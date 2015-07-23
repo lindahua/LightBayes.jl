@@ -1,7 +1,5 @@
-module ExponentialFamilies
+module BayesBase
 
 using Distributions
-
-include("common.jl")
 
 end # module

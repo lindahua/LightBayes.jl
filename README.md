@@ -1,1 +1,1 @@
-# ExponentialFamilies
+# BayesBase
