@@ -31,6 +31,9 @@ for (ed, d0) in [
     (EFBernoulli(), Bernoulli(0.5)),
     (EFBernoulli(1.0), Bernoulli(0.7310585786300049)),
     (EFBernoulli(-1.0), Bernoulli(0.2689414213699951)),
+    # Beta
+    (EFBeta(), Beta(1.0, 1.0)),
+    (EFBeta(1.0, 2.0), Beta(2.0, 3.0)),
     # Normal
     (EFNormal(2.0), Normal(2.0, 1.0)),
     (EFNormal(3.0, 4.0), Normal(0.75, 0.5)),

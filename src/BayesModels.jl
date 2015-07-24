@@ -15,6 +15,7 @@ export
 
     # efd
     EFBernoulli,    # Bernoulli distribution
+    EFBeta,         # Beta distribution
     EFNormal,       # Normal distribution
 
     constbdf,               # test whether the base density is constant

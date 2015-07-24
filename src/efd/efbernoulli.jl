@@ -5,7 +5,7 @@ immutable EFBernoulli <: EFUnivariateDistribution{Discrete}
     EFBernoulli(θ::Real) = new(f64(θ))
 end
 
-show(io::IO, d::Bernoulli) = print(io, "EFBernoulli(θ=$(d.θ))")
+show(io::IO, d::EFBernoulli) = print(io, "EFBernoulli(θ=$(d.θ))")
 
 # conversion
 
