@@ -1,4 +1,4 @@
-immutable EFNormal <: EFUnivariateDistribution
+immutable EFNormal <: EFUnivariateDistribution{Continuous}
     h::Float64      # = μ / σ^2
     J::Float64      # = 1 / σ^2
 

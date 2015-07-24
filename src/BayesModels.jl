@@ -4,7 +4,7 @@ using Distributions
 
 import Base: convert, show
 import Distributions: nsamples, logpdf, logpdf!
-import Distributions: log2π
+import Distributions: log2π, logistic, logit, log1pexp
 
 export
     # efmodels
@@ -14,7 +14,8 @@ export
     EFMultivariateDistribution,
 
     # efd
-    EFNormal,       # normal distribution
+    EFBernoulli,    # Bernoulli distribution
+    EFNormal,       # Normal distribution
 
     constbdf,               # test whether the base density is constant
     inner, inner!,          # compute the inner product
