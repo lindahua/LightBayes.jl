@@ -1,40 +1,39 @@
+immutable EFNormal <: EFUnivariateDistribution
+    h::Float64      # = μ / σ^2
+    J::Float64      # = 1 / σ^2
 
-immutable Normal <: EFUnivariateDistribution
-    h::Float64      # =
-    J::Float64
+    EFNormal(h::Real) = new(f64(h), 1.0)
 
-    Normal(h::Real) = new(f64(h), 1.0)
-
-    function Normal(h::Real, J::Real)
+    function EFNormal(h::Real, J::Real)
         J > 0 || error("J must be positive.")
         new(f64(h), f64(J))
     end
 end
 
-show(io::IO, d::Normal) =
-    print(io, "EFD.Normal(", d.h, ", ", d.J, ")")
+show(io::IO, d::EFNormal) = print(io, "EFNormal(h=$(d.h), J=$(d.J))")
 
 # conversion
 
-convert(::Type{Distribution}, d::Normal) =
-    convert(Distributions.Normal, d)
-
-function convert(::Type{Distributions.Normal}, d::Normal)
+function convert(::Type{Normal}, d::EFNormal)
     σ2 = 1.0 / d.J
-    Distributions.Normal(σ2 * d.h, sqrt(σ2))
+    Normal(σ2 * d.h, sqrt(σ2))
 end
 
-function convert(::Type{Normal}, d::Distributions.Normal)
+function convert(::Type{EFNormal}, d::Normal)
     J = 1.0 / abs2(d.σ)
-    Normal(d.μ * J, J)
+    EFNormal(d.μ * J, J)
 end
+
+convert(::Type{Distribution}, d::EFNormal) = convert(Normal, d)
+convert(::Type{EFDistribution}, d::Normal) = convert(EFNormal, d)
+
 
 # interface functions
 
-logpartition(d::Normal) = 0.5 * abs2(d.h) / d.J
+logpartition(d::EFNormal) = 0.5 * abs2(d.h) / d.J
 
-constbdf(d::Normal) = true
-logbdf(d::Normal) = 0.5 * (log(d.J) - log2π)
-logbdf(d::Normal, x::Float64) = logbdf(d)
+constbdf(d::EFNormal) = true
+logbdf(d::EFNormal) = 0.5 * (log(d.J) - log2π)
+logbdf(d::EFNormal, x::Float64) = logbdf(d)
 
-inner(d::Normal, x::Float64) = d.h * x - (d.J * abs2(x)) * 0.5
+inner(d::EFNormal, x::Float64) = d.h * x - (d.J * abs2(x)) * 0.5

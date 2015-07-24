@@ -4,18 +4,18 @@ using Distributions
 
 import Base: convert, show
 import Distributions: nsamples, logpdf, logpdf!
+import Distributions: log2π
 
 export
-    # sub-modules
-    EFD,
-
-    # base
+    # efmodels
     EFModel,
     EFDistribution,
     EFUnivariateDistribution,
     EFMultivariateDistribution,
 
     # efd
+    EFNormal,       # normal distribution
+
     constbdf,               # test whether the base density is constant
     inner, inner!,          # compute the inner product
     logpartition,           # compute the log-partition function
