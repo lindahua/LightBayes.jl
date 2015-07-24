@@ -2,7 +2,6 @@ using Distributions
 using BayesModels
 using Base.Test
 
-
 function test_efd(ed::EFUnivariateDistribution, d0::UnivariateDistribution)
     D = typeof(d0)
     dc = convert(D, ed)
@@ -19,7 +18,7 @@ function test_efd(ed::EFUnivariateDistribution, d0::UnivariateDistribution)
         lp[i] = logpdf(ed, x[i])
     end
     @test_approx_eq lp lp0
-    
+
     @test_approx_eq logpdf(ed, x) lp0
     @test_approx_eq logupdf(ed, x) - logpartition(ed) lp0
 end

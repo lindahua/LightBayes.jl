@@ -3,11 +3,11 @@ immutable Normal <: EFUnivariateDistribution
     h::Float64      # =
     J::Float64
 
-    Normal(h::Real) = new(_fp(h), 1.0)
+    Normal(h::Real) = new(f64(h), 1.0)
 
     function Normal(h::Real, J::Real)
         J > 0 || error("J must be positive.")
-        new(_fp(h), _fp(J))
+        new(f64(h), f64(J))
     end
 end
 
