@@ -1,4 +1,4 @@
-module BayesBase
+module BayesModels
 
 using Distributions
 

@@ -92,7 +92,7 @@ using Distributions
 import Base: convert, show
 import Distributions: nsamples, logpdf, log2π
 
-import BayesBase:
+import BayesModels:
     EFUnivariateDistribution,
     inner, logpartition, logbdf, constbdf,
     inner!, logupdf!, logupdf,

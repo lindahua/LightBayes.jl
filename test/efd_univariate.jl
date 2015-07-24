@@ -1,5 +1,5 @@
 using Distributions
-using BayesBase
+using BayesModels
 using Base.Test
 
 

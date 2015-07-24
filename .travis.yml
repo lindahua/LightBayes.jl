@@ -10,4 +10,4 @@ notifications:
 # uncomment the following lines to override the default test script
 #script:
 #  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-#  - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("BayesBase"); Pkg.test("BayesBase"; coverage=true)'
+#  - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("BayesModels"); Pkg.test("BayesModels"; coverage=true)'

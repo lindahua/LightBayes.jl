@@ -1,1 +1,1 @@
-# BayesBase
+# BayesModels
