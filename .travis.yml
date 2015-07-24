@@ -3,7 +3,7 @@ os:
   - linux
   - osx
 julia:
-  - release
+  # - release  # only works for 0.4-pre or above
   - nightly
 notifications:
   email: false
