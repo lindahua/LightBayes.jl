@@ -14,6 +14,13 @@ length(d::IsoGaussPrior) = length(d.β)
 mean(d::IsoGaussPrior) = inv(d.κ) * d.β
 var(d::IsoGaussPrior) = inv(d.κ)
 
+# log-partition function
+function logpar(d::IsoGaussPrior)
+    q = length(d)
+    invκ = inv(d.κ)
+    invκ * hsqrnorm(d.β) + (q / 2) * log(2π * invκ)
+end
+
 ##
 # Gaussian likelihood model
 #
@@ -22,6 +29,21 @@ var(d::IsoGaussPrior) = inv(d.κ)
 immutable IsoGaussModel <: LikelihoodModel
     σ::Float64    # the standard dev of observations
 end
+
+function rand!(g::IsoGaussModel, θ::AbstractVector, X::AbstractMatrix)
+    m, n = size(X)
+    σ = g.σ
+    length(θ) == m || throw(DimensionMismatch())
+    @inbounds for j = 1:n
+        for i = 1:m
+            X[i,j] = θ[i] + rand() * σ
+        end
+    end
+    X
+end
+
+rand(g::IsoGaussModel, θ::AbstractVector, n::Integer) =
+    rand!(g, θ, Array(Float64, length(θ), n))
 
 function posterior(d::IsoGaussPrior,           # prior distribution
                    g::IsoGaussModel,           # likelihood model

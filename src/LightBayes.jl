@@ -3,7 +3,7 @@ module LightBayes
 using StatsBase
 using ArrayViews
 
-import Base: length, mean, var
+import Base: length, mean, var, rand, rand!
 import Base.LinAlg: axpy!
 
 export
@@ -12,7 +12,7 @@ export
     IsoGaussPrior,
     IsoGaussModel,
 
-    log_par,
+    logpar,
     posterior
 
 ## source files
