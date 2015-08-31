@@ -1,4 +1,4 @@
-tests = ["efd_univariate"]
+tests = []
 
 for t in tests
     fpath = "$t.jl"
