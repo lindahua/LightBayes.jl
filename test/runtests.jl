@@ -1,4 +1,4 @@
-tests = []
+tests = ["gauss"]
 
 for t in tests
     fpath = "$t.jl"
