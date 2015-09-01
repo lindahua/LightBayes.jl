@@ -1,25 +1,26 @@
 # Gaussian models
 
-##
-# Gaussian distribution with isotropic covariance
-# as a conjugate prior.
-#
-immutable IsoGaussPrior <: PriorModel
-    β::Vector{Float64}
-    κ::Float64
-end
+### For prior IsoNormalCanon
 
-length(d::IsoGaussPrior) = length(d.β)
-
-mean(d::IsoGaussPrior) = inv(d.κ) * d.β
-var(d::IsoGaussPrior) = inv(d.κ)
-
-# log-partition function
-function logpar(d::IsoGaussPrior)
+function logpar(d::IsoNormalCanon)
     q = length(d)
-    invκ = inv(d.κ)
-    invκ * hsqrnorm(d.β) + (q / 2) * log(2π * invκ)
+    h = d.h
+    σ2 = inv(d.J.value)
+    (q * log(2π * σ2) + σ2 * vecnorm(h)^2) * 0.5
 end
+
+immutable IsoNormalCanonSuffStats
+    h::Vector{Float64}  # add to h
+    κ::Float64          # add to κ
+end
+
+length(ss::IsoNormalCanonSuffStats) = length(ss.h)
+
+function posterior(d::IsoNormalCanon, ss::IsoNormalCanonSuffStats)
+    length(d) == length(ss) || throw(DimensionMismatch())
+    MvNormalCanon(d.h + ss.h, d.J.value + ss.κ)
+end
+
 
 ##
 # Gaussian likelihood model
@@ -30,36 +31,18 @@ immutable IsoGaussModel <: LikelihoodModel
     σ::Float64    # the standard dev of observations
 end
 
-function rand!(g::IsoGaussModel, θ::AbstractVector, X::AbstractMatrix)
-    m, n = size(X)
-    σ = g.σ
-    length(θ) == m || throw(DimensionMismatch())
-    @inbounds for j = 1:n
-        for i = 1:m
-            X[i,j] = θ[i] + rand() * σ
-        end
-    end
-    X
-end
+withparams(g::IsoGaussModel, μ::Vector{Float64}) =
+    MvNormal(μ, g.σ)
 
-rand(g::IsoGaussModel, θ::AbstractVector, n::Integer) =
-    rand!(g, θ, Array(Float64, length(θ), n))
-
-function posterior(d::IsoGaussPrior,           # prior distribution
-                   g::IsoGaussModel,           # likelihood model
-                   X::AbstractMatrix,          # data set
-                   sel::AbstractVector{Int})   # selected indices
-
-    β = copy(d.β)
-    κ = d.κ
+function suffstats(g::IsoGaussModel, X::AbstractMatrix, inds::AbstractVector{Int})
+    d, n = size(X)
+    h = zeros(d)
     c = 1.0 / g.σ^2
-    n = length(sel)
-    for i in sel
+    for i in inds
         x = view(X, :, i)
-        axpy!(c, x, β)
+        axpy!(c, x, h)
     end
-    IsoGaussPrior(β, κ + n * c)
+    IsoNormalCanonSuffStats(h, n * c)
 end
 
-posterior(d::IsoGaussPrior, g::IsoGaussModel, X::AbstractMatrix) =
-    posterior(d, g, X, 1:size(X,2))
+suffstats(g::IsoGaussModel, X::AbstractMatrix) = suffstats(g, X, 1:size(X,2))

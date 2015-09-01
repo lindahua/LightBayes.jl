@@ -1,5 +1,5 @@
+using Distributions
 using LightBayes
-
 
 function simulate(r::Float64, n::Int)
     # Simulate Δb for H0 & H1
@@ -31,19 +31,19 @@ function simulate(r::Float64, n::Int)
     β0 = zeros(2)
     σ0 = 10.0
     κ0 = inv(σ0^2)
-    pri = IsoGaussPrior(β0, κ0)
+    pri = MvNormalCanon(β0, κ0)
 
     # likelihood model
     σ = 1.0
     g = IsoGaussModel(σ)
 
     # H0: single component
-    pp0 = posterior(pri, g, X)
+    pp0 = posterior(pri, suffstats(g, X))
     Δb0 = logpar(pp0) - logpar(pri)
 
     # H1: two components:
-    pp1 = posterior(pri, g, X1)
-    pp2 = posterior(pri, g, X2)
+    pp1 = posterior(pri, suffstats(g, X1))
+    pp2 = posterior(pri, suffstats(g, X2))
     Δb1 = (logpar(pp1) - logpar(pri)) + (logpar(pp2) - logpar(pri))
 
     return (Δb0, Δb1)

@@ -1,19 +1,23 @@
 module LightBayes
 
-using StatsBase
+using Distributions
 using ArrayViews
 
 import Base: length, mean, var, rand, rand!
 import Base.LinAlg: axpy!
+import Distributions: suffstats
 
 export
-    PriorModel,
     LikelihoodModel,
-    IsoGaussPrior,
     IsoGaussModel,
 
+    withparams,
     logpar,
-    posterior
+    posterior,
+    posterior_mode,
+    posterior_mode!,
+    posterior_rand,
+    posterior_rand!
 
 ## source files
 
